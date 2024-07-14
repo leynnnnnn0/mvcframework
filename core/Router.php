@@ -37,8 +37,8 @@ class Router
         }
         if(is_array($callback))
         {
-            $controller = new $callback[0]();
-            $callback[0] = $controller;
+            Application::$app->controller = new $callback[0]();
+            $callback[0] = Application::$app->controller;
             return call_user_func($callback);
         }
         return call_user_func($callback);
@@ -48,13 +48,13 @@ class Router
     {
         $pageLayout = $this->pageLayout();
         $viewLayout = $this->viewLayout($view, $params);
+
         return str_replace("{{content}}", $viewLayout, $pageLayout);
     }
 
     public function pageLayout()
     {
         $layout = Application::$app->controller->layout;
-        ob_start();
         require_once Application::$ROOT_PATH."\\views\\layouts\\$layout.php";
         return ob_get_clean();
     }

@@ -17,6 +17,12 @@ abstract class DbModel extends Model
         $statement = Application::$app->database->prepare($query);
         foreach($attributes as $attribute)
         {
+            if($attribute === 'password')
+            {
+                $hashedPassword = password_hash($attribute, PASSWORD_BCRYPT);
+                $statement->bindParam(":$attribute", $hashedPassword);
+                continue;
+            }
             $statement->bindParam(":$attribute", $this->{$attribute});
         }
         return $statement->execute();

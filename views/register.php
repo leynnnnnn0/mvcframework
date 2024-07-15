@@ -19,7 +19,7 @@
                     class="form-control"
                     id="username"
                     name="username"
-                    value="<?= $model->username ?>"
+                    value="<?= $model->username ?>">
             <p class="text-danger"><?= $model->getFirstError('username') ?></p>
         </div>
         <div class="mb-3">
@@ -28,7 +28,9 @@
                     type="password"
                     class="form-control"
                     id="password"
-                    name="password">
+                    name="password"
+
+            >
             <p class="text-danger"><?= $model->getFirstError('password') ?></p>
         </div>
         <div class="mb-3">

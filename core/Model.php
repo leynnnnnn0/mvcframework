@@ -28,7 +28,7 @@ abstract class Model
     {
         foreach ($data as $key => $property) {
             $value = $property;
-            $check = $this->errors()[$key];
+            $check = $this->rules()[$key];
             foreach($check as $error)
             {
                 $errorName = $error;
@@ -53,11 +53,23 @@ abstract class Model
                 {
                     $this->errors[$key][] = "Password does not match";
                 }
-
+                if($errorName === FormError::UNIQUE)
+                {
+                  $class = new $error['class'];
+                  $table = $class::tableName();
+                  $query = "SELECT * FROM $table WHERE $key = '$value'";
+                  $statement = Application::$app->database->prepare($query);
+                  $statement->execute();
+                  $record = $statement->fetchObject();
+                  if($record)
+                  {
+                      $this->errors[$key][] = "This field should be unique";
+                  }
+                }
             }
         }
         return empty($this->errors);
     }
 
-    abstract function errors() : array;
+    abstract function rules() : array;
 }

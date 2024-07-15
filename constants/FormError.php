@@ -9,4 +9,5 @@ enum FormError
     case MIN;
     case INVALID_EMAIL;
     case MATCHED;
+    case UNIQUE;
 }

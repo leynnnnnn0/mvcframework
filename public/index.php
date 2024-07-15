@@ -5,9 +5,18 @@ require_once '../core/functions.php';
 use app\controller\AuthController;
 use app\controller\SiteController;
 use app\core\Application;
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
 
+$config = [
+    'database' => [
+        'dsn' => $_ENV['DB_DSN'],
+        'user' => $_ENV['DB_USER'],
+        'password' => $_ENV['DB_PASSWORD']
+    ]
+];
 // Initialize
-$application = new Application(dirname(__DIR__));
+$application = new Application(dirname(__DIR__), $config);
 // Pages
 $application->router->get('/', [SiteController::class, 'home']);
 $application->router->get('/contact', [SiteController::class, 'contact']);

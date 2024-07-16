@@ -8,7 +8,7 @@ abstract class DbModel extends Model
     abstract public function tableName() : string;
     // To get the attributes/property that the table need
     abstract public function attributes() : array;
-    public function insertAndSave()
+    public function insertAndSave(): bool
     {
         $tableName = $this->tableName();
         $attributes = $this->attributes();
@@ -19,7 +19,7 @@ abstract class DbModel extends Model
         {
             if($attribute === 'password')
             {
-                $hashedPassword = password_hash($attribute, PASSWORD_BCRYPT);
+                $hashedPassword = password_hash($this->{$attribute}, PASSWORD_BCRYPT);
                 $statement->bindParam(":$attribute", $hashedPassword);
                 continue;
             }

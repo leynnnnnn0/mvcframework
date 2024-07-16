@@ -4,6 +4,7 @@ namespace app\controller;
 
 use app\core\Application;
 use app\core\Controller;
+use app\core\Session;
 use app\model\User;
 
 class AuthController extends Controller
@@ -25,9 +26,10 @@ class AuthController extends Controller
             // Create a model for the submitted data
             $registerModel->loadData($_POST);
             // validate the data
-            if($registerModel->validate($registerModel) && $registerModel->insertAndSave())
+            if(true)
             {
-                return 'REGISTER FORM SUBMITTED';
+                Application::$app->session::set_flash('success', 'Login successfully.');
+                Application::$app->response->redirect('/');
             }
             $this->setLayout("auth");
             return $this->render('register', ['model' => $registerModel]);

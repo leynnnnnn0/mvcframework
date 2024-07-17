@@ -8,21 +8,36 @@ class Session
     public function __construct()
     {
         session_start();
-        $flashMessages = $_SESSION[self::FLASH_KEY];
-        echo "IM THE CONSTRUCTOR " . var_dump($flashMessages) ;
+        $flashMessages = $_SESSION[self::FLASH_KEY] ?? [];
+        foreach($flashMessages as $key => &$flashMessageDetails) {
+            if(!$flashMessageDetails['remove'])
+            {
+                $flashMessageDetails['remove'] = true;
+            }
+        };
+        $_SESSION[self::FLASH_KEY] = $flashMessages;
     }
 
     public static function set_flash(string $key, string $value): void
     {
-        $_SESSION[self::FLASH_KEY][$key] = $value;
+        $_SESSION[self::FLASH_KEY][$key] = [
+            'message' => $value,
+            'remove' => false
+        ];
     }
 
     public static function get_flash(string $key): string|bool
     {
-        return $_SESSION[self::FLASH_KEY][$key] ?? false;
+        return $_SESSION[self::FLASH_KEY][$key]['message'] ?? false;
     }
     public function __destruct()
     {
-        echo  "DECONSTRUCTOR " . var_dump($_SESSION[self::FLASH_KEY]);
+        $flashMessages = $_SESSION[self::FLASH_KEY] ?? [];
+        foreach ($flashMessages as $key => $flashMessageDetails) {
+            if ($flashMessageDetails['remove']) {
+                unset($flashMessages[$key]);
+            }
+        }
+        $_SESSION[self::FLASH_KEY] = $flashMessages;
     }
 }

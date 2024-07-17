@@ -22,10 +22,15 @@ class AuthController extends Controller
             }
             $this->setLayout("auth");
             return $this->render('login', ['model' => $loginForm]);
-
         }
         $this->setLayout("auth");
         return $this->render('login', ['model' => $loginForm]);
+    }
+
+    public function logout()
+    {
+        Application::$app->logout();
+        Application::$app->response->redirect('/login');
     }
 
     public function register()

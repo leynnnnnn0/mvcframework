@@ -42,7 +42,7 @@ abstract class DbModel extends Model
             $statement->bindParam(":$key", $value);
         }
         $statement->execute();
-        return $statement->fetchObject();
+        return $statement->fetchObject(static::class);
     }
 
 

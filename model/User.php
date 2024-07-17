@@ -3,10 +3,9 @@
 namespace app\model;
 
 use app\constants\FormError;
-use app\core\DbModel;
-use app\core\Model;
+use app\core\UserModel;
 
-class User extends DbModel
+class User extends UserModel
 {
     public string $email = '';
     public string $username = '';
@@ -35,5 +34,10 @@ class User extends DbModel
             'email',
             'password'
         ];
+    }
+
+    function getPrimaryKey(): string
+    {
+        return 'id';
     }
 }

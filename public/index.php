@@ -5,10 +5,13 @@ require_once '../core/functions.php';
 use app\controller\AuthController;
 use app\controller\SiteController;
 use app\core\Application;
+use app\model\User;
+
 $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
 
 $config = [
+    'userClass' => User::class,
     'database' => [
         'dsn' => $_ENV['DB_DSN'],
         'user' => $_ENV['DB_USER'],
@@ -25,5 +28,6 @@ $application->router->get('/register', [AuthController::class, 'register']);
 $application->router->post('/register', [AuthController::class, 'register']);
 $application->router->get('/login', [AuthController::class, 'login']);
 $application->router->post('/login', [AuthController::class, 'login']);
+$application->router->get('/logout', [AuthController::class, 'logout']);
 // Run
 $application->run();

@@ -18,6 +18,16 @@ class Session
         $_SESSION[self::FLASH_KEY] = $flashMessages;
     }
 
+    public function set($key, $value)
+    {
+        $_SESSION[$key] = $value;
+    }
+
+    public function remove($key)
+    {
+        unset($_SESSION[$key]);
+    }
+
     public static function set_flash(string $key, string $value): void
     {
         $_SESSION[self::FLASH_KEY][$key] = [
@@ -39,5 +49,10 @@ class Session
             }
         }
         $_SESSION[self::FLASH_KEY] = $flashMessages;
+    }
+
+    public function get(string $string)
+    {
+        return $_SESSION[$string] ?? false;
     }
 }

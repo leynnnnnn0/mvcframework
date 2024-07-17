@@ -3,6 +3,7 @@
 namespace app\model;
 
 use app\constants\FormError;
+use app\core\Application;
 use app\core\DbModel;
 
 class LoginForm extends DbModel
@@ -45,7 +46,7 @@ class LoginForm extends DbModel
             $this->addError('password', 'Incorrect Password');
             return false;
         }
-        return true;
+        return Application::$app->login($user);
 
     }
 }

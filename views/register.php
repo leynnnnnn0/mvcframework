@@ -1,3 +1,9 @@
+<?php
+use app\model\User;
+
+/** @var $model User*/
+
+?>
 <div class="container">
     <h1>Register</h1>
     <form method="POST">

@@ -41,7 +41,7 @@ abstract class Model
                 {
                     $this->errors[$key][] = "This field is required";
                 }
-                if($errorName === FormError::INVALID_EMAIL && !filter_var($value, FILTER_VALIDATE_EMAIL))
+                if($errorName === FormError::VALID_EMAIL && !filter_var($value, FILTER_VALIDATE_EMAIL))
                 {
                     $this->errors[$key][] = "This email is not valid";
                 }
@@ -69,6 +69,11 @@ abstract class Model
             }
         }
         return empty($this->errors);
+    }
+
+    public function addError(string $key, string $value)
+    {
+        $this->errors[$key][] = $value;
     }
 
     abstract function rules() : array;

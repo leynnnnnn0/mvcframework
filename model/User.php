@@ -17,7 +17,7 @@ class User extends DbModel
     {
         return [
             'username' => [FormError::REQUIRED],
-            'email' => [FormError::REQUIRED, FormError::INVALID_EMAIL, [FormError::UNIQUE, 'class' => self::class]],
+            'email' => [FormError::REQUIRED, FormError::VALID_EMAIL, [FormError::UNIQUE, 'class' => self::class]],
             'password' => [FormError::REQUIRED, [FormError::MIN, 'min' => 8]],
             'confirmPassword' => [FormError::REQUIRED, FormError::MATCHED]
         ];

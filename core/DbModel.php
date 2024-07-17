@@ -5,6 +5,7 @@ namespace app\core;
 abstract class DbModel extends Model
 {
     // To get the name of the table to work with
+
     abstract public function tableName() : string;
     // To get the attributes/property that the table need
     abstract public function attributes() : array;
@@ -27,6 +28,21 @@ abstract class DbModel extends Model
         }
         return $statement->execute();
 
+    }
+
+    public function findUser($attributes)
+    {
+        $tableName = $this->tableName();
+        $keys  = array_keys($attributes);
+        $condition = implode(" AND ", array_map(fn($item) => "$item = :$item", $keys));
+        $query = "SELECT * FROM $tableName WHERE $condition";
+        $statement = Application::$app->database->prepare($query);
+        foreach ($attributes as $key => $value)
+        {
+            $statement->bindParam(":$key", $value);
+        }
+        $statement->execute();
+        return $statement->fetchObject();
     }
 
 

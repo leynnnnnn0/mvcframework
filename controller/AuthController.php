@@ -5,18 +5,27 @@ namespace app\controller;
 use app\core\Application;
 use app\core\Controller;
 use app\core\Session;
+use app\model\LoginForm;
 use app\model\User;
 
 class AuthController extends Controller
 {
     public function login()
     {
+        $loginForm = new LoginForm();
         if(Application::$app->request->getMethod() === 'POST')
         {
-            return 'LOGIN FORM SUBMITTED';
+            $loginForm->loadData($_POST);
+            if($loginForm->validate($_POST) && $loginForm->login())
+            {
+                Application::$app->response->redirect('/');
+            }
+            $this->setLayout("auth");
+            return $this->render('login', ['model' => $loginForm]);
+
         }
         $this->setLayout("auth");
-        return $this->render('login');
+        return $this->render('login', ['model' => $loginForm]);
     }
 
     public function register()
@@ -26,9 +35,9 @@ class AuthController extends Controller
             // Create a model for the submitted data
             $registerModel->loadData($_POST);
             // validate the data
-            if(true)
+            if($registerModel->validate($registerModel) && $registerModel->insertAndSave())
             {
-                Application::$app->session::set_flash('success', 'Login successfully.');
+                Application::$app->session::set_flash('success', 'Account Created.');
                 Application::$app->response->redirect('/');
             }
             $this->setLayout("auth");
